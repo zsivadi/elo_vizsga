@@ -7,21 +7,25 @@
 
 int beolvas();
 void feltolt(int*, int);
+int compare(const void* a, const void* b);
 
 int main()
 {
     srand(time(0));
     int tomb[10];
+    int length = sizeof(tomb)/sizeof(tomb[0]);
     
     int n = beolvas();
     printf("%d\n", n);
     
-    feltolt(tomb, sizeof(tomb)/sizeof(tomb[0]));
-    for (int i = 0; i < sizeof(tomb)/sizeof(tomb[0]); i++) {
+    feltolt(tomb, length);
+    qsort(tomb, length, sizeof(int), compare);
+    for (int i = 0; i < length; i++) {
         printf("A tomb %d. eleme: %d\n", i+1, tomb[i]);
     }
     
-    
+    float rnd = MIN + ((float)rand() / RAND_MAX) * (MAX - MIN);
+    printf("Lebegopontos random: %lf", rnd);
     
     return 0;
 }
@@ -57,6 +61,7 @@ void ell_beolvasas() {
             while ((ch=getchar())!='\n');
         }
     } while (!ok);
+}
 
 // Tömb feltöltés
 
@@ -67,4 +72,10 @@ void feltolt(int* array, int length) {
             array[i] = r;
         }
     }
+}
+
+// Összehasonlító tömb sorthoz
+
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b); // Növekvő sorrend
 }
